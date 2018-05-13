@@ -12,15 +12,19 @@ RUN apt-get update && \
     curl \
     wget \
     telnet \
-    expect && \
+    expect \
+    net-tools && \
     rm -rf /var/lib/apt/lists/*
+
+#timezone
+ENV TZ=America/Sao_Paulo
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Run as root
 USER root
 
 # Create and set the steamcmd folder as a volume
 RUN mkdir -p /steamcmd/7dtd
-VOLUME ["/steamcmd/7dtd"]
 
 # Setup scheduling support
 ADD scheduler_app/ /scheduler_app/
@@ -39,22 +43,25 @@ ADD update_check.sh /update_check.sh
 # Copy the default server config in place
 ADD serverconfig_original.xml /serverconfig.xml
 
+
+
+#MOVED TO COMPOSE docker-compose.yml
+
 # Expose necessary ports
-EXPOSE 26900
-EXPOSE 25000
-EXPOSE 25001
-EXPOSE 25002
-EXPOSE 25003
-EXPOSE 8080
-EXPOSE 8081
+#EXPOSE 26910
+#EXPOSE 26911
+#EXPOSE 26912
+#EXPOSE 26913
+#EXPOSE 8080
+#EXPOSE 8081
 
 # Setup default environment variables for the server
-ENV SEVEN_DAYS_TO_DIE_SERVER_STARTUP_ARGUMENTS "-configfile=server_data/serverconfig.xml -logfile /dev/stdout -quit -batchmode -nographics -dedicated"
-ENV SEVEN_DAYS_TO_DIE_TELNET_PORT 8081
-ENV SEVEN_DAYS_TO_DIE_TELNET_PASSWORD ""
-ENV SEVEN_DAYS_TO_DIE_START_MODE "0"
-ENV SEVEN_DAYS_TO_DIE_UPDATE_CHECKING "0"
-ENV SEVEN_DAYS_TO_DIE_UPDATE_BRANCH "public"
+#ENV SEVEN_DAYS_TO_DIE_SERVER_STARTUP_ARGUMENTS "-configfile=server_data/serverconfig.xml -logfile /steamcmd/7dtd/log/output.log -quit -batchmode -nographics -dedicated"
+#ENV SEVEN_DAYS_TO_DIE_TELNET_PORT 8081
+#ENV SEVEN_DAYS_TO_DIE_TELNET_PASSWORD "kweiowejrt209@"
+#ENV SEVEN_DAYS_TO_DIE_START_MODE "0"
+#ENV SEVEN_DAYS_TO_DIE_UPDATE_CHECKING "0"
+#ENV SEVEN_DAYS_TO_DIE_UPDATE_BRANCH "public"
 
 # Start the server
-ENTRYPOINT ["./start.sh"]
+#ENTRYPOINT ["./start.sh"]

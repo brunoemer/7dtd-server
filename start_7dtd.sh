@@ -15,6 +15,30 @@ exit_handler()
 	exit
 }
 
+# add variables values from docker environment to SD2D config file before replacing default one and starting server.
+# example:  if variable MaxSpawnedZombies=100 is defined in enviroment, it will change the config default value to 100.
+# this variables can be passed when starting docker container with flag
+#       --env MaxSpawnedZombies=100
+echo "Changing serverconfig.xml"
+for var in `env|grep -o .*=|sed 's/=//'`;
+do 
+        SD2D=`grep $var /serverconfig.xml`;
+        if ! [ x"${SD2D}" = "x" ];
+         then
+                current_value=`echo $SD2D|grep -Eo "value=\".*\""`;
+                new_value=`echo "value=\"${!var}\""`;
+                
+        #       echo $current_value
+        #       echo $new_value
+        #       echo $SD2D 
+
+                new_SD2D=`echo $SD2D|sed "s/${current_value}/${new_value}/"`
+                
+        #       echo $new_SD2D          
+                sed -i.bak "s#${SD2D}#${new_SD2D}#g" /serverconfig.xml
+        fi
+done
+
 # Create the necessary folder structure
 if [ ! -d "/steamcmd/7dtd/server_data" ]; then
 	echo "Creating folder structure.."
@@ -31,6 +55,12 @@ fi
 if [ ! -f "/steamcmd/7dtd/server_data/7dtd.log" ]; then
 	echo "Creating an empty log file.."
 	touch /steamcmd/7dtd/server_data/7dtd.log
+fi
+
+# Create the necessary folder structure
+if [ ! -d "/steamcmd/7dtd/log" ]; then
+        echo "Creating folder log.."
+        mkdir -p /steamcmd/7dtd/log
 fi
 
 # Disable auto-update if start mode is 2
