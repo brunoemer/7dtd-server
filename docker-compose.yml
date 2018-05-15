@@ -4,7 +4,7 @@ services:
   s001:
     extends:
       file: docker-compose-common.yml
-      service: 7daystodie
+      service: 7dtd
     ports:
       - 26910:26910
       - 26910:26910/udp
@@ -14,18 +14,19 @@ services:
       - 8082:8080
       - 8083:8081
     environment:
-      - ServerName=Servidor BR 1 - by NuvolaHost
+      - ServerName=Servidor BR 1 Ravenhearst - by NuvolaHost
       - ServerPort=26910
+      - EACEnabled=false
       - SEVEN_DAYS_TO_DIE_TELNET_PASSWORD=kweiowejrt209@
       - SEVEN_DAYS_TO_DIE_UPDATE_CHECKING=0
     volumes:
-      - ./7daystodie_s001:/steamcmd/7dtd
+      - ./7dtdserver_s001_1:/steamcmd/7dtd
     restart: always
 
   s002:
     extends:
       file: docker-compose-common.yml
-      service: 7daystodie
+      service: 7dtd
     ports:
       - 26920:26920
       - 26920:26920/udp
@@ -40,6 +41,6 @@ services:
       - SEVEN_DAYS_TO_DIE_TELNET_PASSWORD=kweiowejrt209@
       - SEVEN_DAYS_TO_DIE_UPDATE_CHECKING=0
     volumes:
-      - ./7daystodie_s002:/steamcmd/7dtd
+      - ./7dtdserver_s002_1:/steamcmd/7dtd
     restart: always
 

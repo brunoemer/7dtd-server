@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  7daystodie:
+  7dtd:
 #    image: didstopia/base:nodejs-steamcmd-ubuntu-16.04
     image: didstopia/7dtd-server:latest
     entrypoint: ./start.sh
@@ -11,5 +11,5 @@ services:
       - SEVEN_DAYS_TO_DIE_TELNET_PORT=8081
       - SEVEN_DAYS_TO_DIE_START_MODE=0 #0 install and update and start, 1 install and update, 2 install without update and start
       - SEVEN_DAYS_TO_DIE_UPDATE_BRANCH=public
-      - SEVEN_DAYS_TO_DIE_SERVER_STARTUP_ARGUMENTS=-configfile=server_data/serverconfig.xml -logfile /steamcmd/7dtd/log/output.log -quit -batchmode -nographics -dedicated
+      - SEVEN_DAYS_TO_DIE_SERVER_STARTUP_ARGUMENTS=-configfile=server_data/serverconfig.xml -quit -batchmode -nographics -dedicated
 

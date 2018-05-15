@@ -115,7 +115,7 @@ cd /steamcmd/7dtd
 
 # Run the server
 echo "Starting 7 Days to Die.."
-/steamcmd/7dtd/7DaysToDieServer.x86_64 ${SEVEN_DAYS_TO_DIE_SERVER_STARTUP_ARGUMENTS} &
+/steamcmd/7dtd/7DaysToDieServer.x86_64 -logfile /steamcmd/7dtd/log/`date +%Y-%m-%d__%H-%M-%S`.log ${SEVEN_DAYS_TO_DIE_SERVER_STARTUP_ARGUMENTS} &
 
 child=$!
 wait "$child"
